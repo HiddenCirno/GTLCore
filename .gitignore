@@ -61,3 +61,10 @@ run/
 /CGSE_*.zip
 /CGE_*.zip
 /GTL_vs_CP_SAT_*.zip
+
+# Local references and scratch
+_ref/
+_tmp_gt/
+
+# Local patch backups
+*.bak-*
