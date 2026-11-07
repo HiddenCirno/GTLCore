@@ -67,6 +67,24 @@ public class LargeSteamParallelMultiblockMachine extends WorkableMultiblockMachi
     // if in millibuckets, this is 0.5, Meaning 2mb of steam -> 1 EU
     private static final double CONVERSION_RATE = 0.5D;
 
+    /** Steam to EU conversion, including the large steam hatch overclock bonus. */
+    public double getSteamConversionRate() {
+        return CONVERSION_RATE * (isOC ? Math.pow(3, amountOC) : 1);
+    }
+
+    /** Recipe EUt cap: LV (32) normally, MV (128) with a large steam hatch. */
+    public long getMaxRecipeEUt() {
+        return isOC ? 128 : 32;
+    }
+
+    public boolean isUsingLargeSteamHatch() {
+        return isOC;
+    }
+
+    public int getSteamOCAmount() {
+        return amountOC;
+    }
+
     public LargeSteamParallelMultiblockMachine(IMachineBlockEntity holder, int maxParallels, Object... args) {
         super(holder, args);
         max_parallels = maxParallels;

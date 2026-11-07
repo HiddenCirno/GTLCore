@@ -1723,5 +1723,20 @@
   "gtlcore.machine.dream_elevator.animation.enabled": "Dream Elevator animation enabled",
   "gtlcore.machine.dream_elevator.animation.disabled": "Dream Elevator animation disabled",
   "gtlcore.machine.dream_elevator.animation.status.enabled": "§7Formed Animation: §aEnabled",
-  "gtlcore.machine.dream_elevator.animation.status.disabled": "§7Formed Animation: §cDisabled"
+  "gtlcore.machine.dream_elevator.animation.status.disabled": "§7Formed Animation: §cDisabled",
+  "gtlcore.machine.dream_elevator.modules_online": "§7Connected Modules: §e%s§7/§e%s",
+  "gtlcore.machine.dream_elevator.parallel_pool": "§7Parallel Pool: §e%s§7 (used §e%s§7)",
+  "block.gtceu.steam_industrial_processing_plant_t1": "Steam Industrial Processing Plant I",
+  "block.gtceu.steam_industrial_processing_plant_t2": "Steam Industrial Processing Plant II",
+  "block.gtceu.steam_industrial_processing_plant_t3": "Steam Industrial Processing Plant III",
+  "gtceu.steam_industrial_processing_plant_t1": "Steam Industrial Processing Plant I",
+  "gtceu.steam_industrial_processing_plant_t2": "Steam Industrial Processing Plant II",
+  "gtceu.steam_industrial_processing_plant_t3": "Steam Industrial Processing Plant III",
+  "gtlcore.machine.steam_industrial_processing_plant.tooltip.0": "§7An independent steam processing module slotted into the Dream Elevator.",
+  "gtlcore.machine.steam_industrial_processing_plant.tooltip.1": "§7Has its own item/fluid hatches; only receives shared steam from the host.",
+  "gtlcore.machine.steam_industrial_processing_plant.tier": "§7Module Tier: §eT%s",
+  "gtlcore.machine.steam_industrial_processing_plant.parallel": "§7Module Parallel: §e%s",
+  "gtlcore.machine.steam_industrial_processing_plant.connected": "§7Host Link: §aConnected",
+  "gtlcore.machine.steam_industrial_processing_plant.disconnected": "§7Host Link: §cDisconnected",
+  "gtlcore.machine.steam_industrial_processing_plant.steam": "§7Steam Buffer: §e%s§7 buckets / Rail T%s"
 }
