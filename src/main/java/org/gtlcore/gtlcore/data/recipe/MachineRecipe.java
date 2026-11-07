@@ -96,22 +96,6 @@ public class MachineRecipe {
                 .outputItems(GTBlocks.MACHINE_CASING_MAX.asStack()).circuitMeta(8).duration(50)
                 .save(provider);
 
-        // 武德之眼控制器：对应 TST 的「原始人便携式时空扭曲装置」配方。
-        ASSEMBLER_RECIPES.recipeBuilder("eye_of_wood")
-                .inputItems(new net.minecraft.world.item.ItemStack(Blocks.BRICKS, 32))
-                .inputItems(GTBlocks.CASING_BRONZE_BRICKS.asStack(32))
-                .inputItems(new net.minecraft.world.item.ItemStack(Blocks.LAPIS_BLOCK, 16))
-                .inputItems(new net.minecraft.world.item.ItemStack(Blocks.BOOKSHELF, 16))
-                .inputItems(new net.minecraft.world.item.ItemStack(Blocks.CHISELED_STONE_BRICKS, 8))
-                .inputItems(EMITTER_LV, 64)
-                .inputItems(FIELD_GENERATOR_LV, 64)
-                .inputItems(MICROPROCESSOR_LV, 64)
-                .inputItems(new net.minecraft.world.item.ItemStack(Items.ENCHANTED_GOLDEN_APPLE))
-                .circuitMeta(17)
-                .outputItems(MultiBlockMachineB.EYE_OF_WOOD.asStack())
-                .EUt(VA[LV]).duration(20 * 114)
-                .save(provider);
-
         ASSEMBLER_RECIPES.recipeBuilder("rotor_hatch_a")
                 .inputItems(GTMachines.ITEM_IMPORT_BUS[EV], 1)
                 .inputItems(COVER_ITEM_DETECTOR_ADVANCED)
