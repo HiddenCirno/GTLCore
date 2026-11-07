@@ -10,6 +10,7 @@ import org.gtlcore.gtlcore.common.block.GTLFusionCasingBlock;
 import org.gtlcore.gtlcore.common.data.*;
 import org.gtlcore.gtlcore.common.data.machines.structure.AdvancedMultiBlockMachineStructureA;
 import org.gtlcore.gtlcore.common.data.machines.structure.AdvancedMultiBlockMachineStructureB;
+import org.gtlcore.gtlcore.common.data.machines.structure.SpaceElevatorStructure;
 import org.gtlcore.gtlcore.common.machine.multiblock.electric.*;
 import org.gtlcore.gtlcore.common.machine.multiblock.noenergy.HeatExchangerMachine;
 import org.gtlcore.gtlcore.common.machine.multiblock.noenergy.NeutronActivatorMachine;
@@ -711,7 +712,7 @@ public class AdvancedMultiBlockMachineB {
             .tooltipBuilder(GTLMachines.GTL_ADD)
             .recipeModifier(GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(new OverclockingLogic(1, 4, false)))
             .appearanceBlock(GTLBlocks.SPACE_ELEVATOR_MECHANICAL_CASING)
-            .pattern(definition -> AdvancedMultiBlockMachineStructureB.SPACE_ELEVATOR
+            .pattern(definition -> SpaceElevatorStructure.SPACE_ELEVATOR
                     .where("~", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("X", Predicates.blocks(GTLBlocks.SPACE_ELEVATOR_MECHANICAL_CASING.get())
                             .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1))
