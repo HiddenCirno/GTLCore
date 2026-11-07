@@ -1,6 +1,6 @@
 # 梦想电梯（Dream Elevator）设计草稿
 
-> 状态：**草案 / 未实现**
+> 状态：**结构 / 加速轨道 / 成型动画已实现，模块未实现**
 > 定位：**蒸汽时代的工业中心**
 > 宣传语：**我要当太空人，爷爷奶奶可高兴了**
 
@@ -25,11 +25,33 @@
 
 ### 2.1 结构外形
 
-- 使用 GTNH 原版太空电梯的 **MAIN 主塔**结构；
-- 尺寸：**35 宽 × 43 高 × 35 深**；
-- 不带 GTL 太空电梯的 EXTENDED 外环；
+- 使用 GTNH 原版太空电梯的 **MAIN + EXTENDED** 完整结构；
+- MAIN 主塔：**35 宽 × 43 高 × 35 深**；
+- EXTENDED 外环：**47 宽 × 5 高 × 47 深**；
+- 合并后的完整判定范围：**47 × 43 × 47**；
+- 不使用 GTL 太空电梯的 SEPM 外环；
 - 中央四条竖直电机方块就是“加速轨道”；
-- 至少包含一个**巨型蒸汽输入仓**。
+- 至少包含一个**巨型蒸汽输入仓**；
+- 不需要能源仓、算力仓、维护仓。
+
+### 2.1.1 方块替换
+
+| 原结构方块 | 梦想电梯方块 |
+|---|---|
+| `gtlcore:space_elevator_mechanical_casing` | `gtceu:steam_machine_casing` |
+| `kubejs:high_strength_concrete` | `minecraft:stone_bricks` |
+| `kubejs:space_elevator_internal_support` | `minecraft:bricks` |
+| `gtceu:neutronium_frame` | `gtceu:treated_wood_frame` |
+| `gtlcore:space_elevator_support` | `minecraft:polished_basalt` |
+| 太空电梯线缆 / `gtlcore:power_core` | `minecraft:redstone_block` |
+| 电机机壳 `C` | 铜 / 青金石 / 钻石 / 绿宝石 / 下界合金块 |
+
+> 加速轨道必须全部使用同一种方块，否则结构不成立。
+
+### 2.1.2 控制器外观
+
+- 侧面：蒸汽机械方块纹理；
+- 正面：锻炉（`gtceu:block/multiblock/fusion_reactor`）overlay。
 
 ### 2.2 能源
 

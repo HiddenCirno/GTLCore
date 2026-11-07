@@ -47,6 +47,11 @@ public class GTLRecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MINER);
 
+    public static final GTRecipeType DREAM_ELEVATOR_RECIPES = register("dream_elevator", MULTIBLOCK)
+            .setMaxIOSize(0, 0, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.ASSEMBLER);
+
     public final static GTRecipeType SEMI_FLUID_GENERATOR_FUELS = register("semi_fluid_generator", GENERATOR)
             .setMaxIOSize(0, 0, 1, 0).setEUIO(IO.OUT)
             .setSlotOverlay(false, true, true, GuiTextures.FURNACE_OVERLAY_2)

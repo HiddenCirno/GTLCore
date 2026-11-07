@@ -1713,5 +1713,15 @@
   "gtlcore.machine.eye_of_wood.stored_water": "已存储水：%s / %s L",
   "gtlcore.machine.eye_of_wood.stored_lava": "已存储岩浆：%s / %s L",
   "gtlcore.machine.eye_of_wood.success_chance": "成功率：%s / 10000",
-  "gtlcore.machine.eye_of_wood.no_veins": "未找到主世界矿脉数据"
+  "gtlcore.machine.eye_of_wood.no_veins": "未找到主世界矿脉数据",
+  "block.gtceu.dream_elevator": "梦想电梯",
+  "gtceu.dream_elevator": "梦想电梯",
+  "gtlcore.machine.dream_elevator.tooltip.0": "§7一座梦想着上太空的蒸汽时代工业中心.",
+  "gtlcore.machine.dream_elevator.tooltip.1": "§7中央加速轨道决定模块槽位与加工加成.",
+  "gtlcore.machine.dream_elevator.rail_tier": "§7加速轨道等级：§e%s",
+  "gtlcore.machine.dream_elevator.module_slots": "§7模块槽位：§e%s",
+  "gtlcore.machine.dream_elevator.animation.enabled": "梦想电梯动画已开启",
+  "gtlcore.machine.dream_elevator.animation.disabled": "梦想电梯动画已关闭",
+  "gtlcore.machine.dream_elevator.animation.status.enabled": "§7成型动画：§a已启用",
+  "gtlcore.machine.dream_elevator.animation.status.disabled": "§7成型动画：§c已禁用"
 }

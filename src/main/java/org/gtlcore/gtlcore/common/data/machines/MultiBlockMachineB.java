@@ -1,12 +1,16 @@
 package org.gtlcore.gtlcore.common.data.machines;
 
 import org.gtlcore.gtlcore.GTLCore;
+import org.gtlcore.gtlcore.api.pattern.GTLPredicates;
+import org.gtlcore.gtlcore.client.renderer.machine.DreamElevatorRenderer;
 import org.gtlcore.gtlcore.common.data.*;
 import org.gtlcore.gtlcore.common.data.machines.structure.AdvancedMultiBlockMachineStructureA;
+import org.gtlcore.gtlcore.common.data.machines.structure.DreamElevatorStructure;
 import org.gtlcore.gtlcore.common.data.machines.structure.MultiBlockMachineBStructure;
 import org.gtlcore.gtlcore.common.machine.multiblock.electric.WorkableElectricParallelHatchMultipleRecipesMachine;
 import org.gtlcore.gtlcore.common.machine.multiblock.noenergy.EyeOfWoodMachine;
 import org.gtlcore.gtlcore.common.machine.multiblock.noenergy.PrimitiveOreMachine;
+import org.gtlcore.gtlcore.common.machine.multiblock.steam.DreamElevatorMachine;
 import org.gtlcore.gtlcore.config.ConfigHolder;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -18,6 +22,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblo
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.common.data.GCyMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
@@ -27,7 +32,10 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+
+import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.controller;
@@ -44,6 +52,22 @@ public class MultiBlockMachineB {
             tooltips[i] = Component.translatable("gtlcore.machine.eye_of_wood.tooltip." + i);
         }
         return tooltips;
+    }
+
+    private static TraceabilityPredicate dreamSteamCasing() {
+        // PartAbility.STEAM 的 getAllBlocks() 是 memoize 的，GTL 的大型蒸汽输入仓注册较晚，
+        // 可能不在缓存里，因此这里显式补上它的方块。
+        Block[] steamParts = Stream.concat(
+                PartAbility.STEAM.getAllBlocks().stream(),
+                Stream.of(GTLMachines.LARGE_STEAM_HATCH.getBlock()))
+                .distinct()
+                .toArray(Block[]::new);
+        return blocks(GTBlocks.CASING_BRONZE_BRICKS.get())
+                .or(Predicates.blocks(steamParts).setMaxGlobalLimited(4))
+                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(4))
+                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(4))
+                .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(4))
+                .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(4));
     }
 
     public final static MultiblockMachineDefinition GRAVITATION_SHOCKBURST = REGISTRATE.multiblock("gravitation_shockburst", WorkableElectricMultiblockMachine::new)
@@ -237,6 +261,36 @@ public class MultiBlockMachineB {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"),
                     GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    public final static MultiblockMachineDefinition DREAM_ELEVATOR = REGISTRATE
+            .multiblock("dream_elevator", DreamElevatorMachine::new)
+            .langValue("Dream Elevator")
+            .rotationState(RotationState.ALL)
+            .recipeType(GTLRecipeTypes.DREAM_ELEVATOR_RECIPES)
+            .appearanceBlock(GTBlocks.CASING_BRONZE_BRICKS)
+            .tooltips(Component.translatable("gtlcore.machine.dream_elevator.tooltip.0"))
+            .tooltips(Component.translatable("gtlcore.machine.dream_elevator.tooltip.1"))
+            .tooltipBuilder(GTLMachines.GTL_ADD)
+            .pattern(definition -> DreamElevatorStructure.DREAM_ELEVATOR
+                    .where("~", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("A", Predicates.blocks(Blocks.STONE_BRICKS))
+                    .where("B", Predicates.blocks(Blocks.BRICKS))
+                    .where("P", Predicates.blocks(Blocks.POLISHED_BASALT))
+                    .where("W", Predicates.blocks(
+                            ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.TreatedWood)))
+                    .where("R", Predicates.blocks(Blocks.REDSTONE_BLOCK))
+                    .where("C", GTLPredicates.tierCasings(DreamElevatorMachine.RAIL_TIER_BLOCKS,
+                            DreamElevatorMachine.RAIL_TIER_KEY))
+                    .where("S", dreamSteamCasing())
+                    .where("X", dreamSteamCasing())
+                    .where("G", dreamSteamCasing())
+                    .where("I", dreamSteamCasing())
+                    .where("-", Predicates.air())
+                    .where(" ", Predicates.any())
+                    .build())
+            .renderer(DreamElevatorRenderer::new)
+            .hasTESR(true)
             .register();
 
     public final static MultiblockMachineDefinition LARGE_FRAGMENT_WORLD_COLLECTION_MACHINE = ConfigHolder.INSTANCE.content.enableSkyBlokeMode ?

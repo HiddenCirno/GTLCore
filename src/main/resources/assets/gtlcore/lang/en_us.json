@@ -1713,5 +1713,15 @@
   "gtlcore.machine.eye_of_wood.stored_water": "Stored Water: %s / %s L",
   "gtlcore.machine.eye_of_wood.stored_lava": "Stored Lava: %s / %s L",
   "gtlcore.machine.eye_of_wood.success_chance": "Success Chance: %s / 10000",
-  "gtlcore.machine.eye_of_wood.no_veins": "No Overworld ore vein data found"
+  "gtlcore.machine.eye_of_wood.no_veins": "No Overworld ore vein data found",
+  "block.gtceu.dream_elevator": "Dream Elevator",
+  "gtceu.dream_elevator": "Dream Elevator",
+  "gtlcore.machine.dream_elevator.tooltip.0": "§7A steam-era industrial center dreaming of space.",
+  "gtlcore.machine.dream_elevator.tooltip.1": "§7The central acceleration rails determine module slots and processing bonuses.",
+  "gtlcore.machine.dream_elevator.rail_tier": "§7Acceleration Rail Tier: §e%s",
+  "gtlcore.machine.dream_elevator.module_slots": "§7Module Slots: §e%s",
+  "gtlcore.machine.dream_elevator.animation.enabled": "Dream Elevator animation enabled",
+  "gtlcore.machine.dream_elevator.animation.disabled": "Dream Elevator animation disabled",
+  "gtlcore.machine.dream_elevator.animation.status.enabled": "§7Formed Animation: §aEnabled",
+  "gtlcore.machine.dream_elevator.animation.status.disabled": "§7Formed Animation: §cDisabled"
 }
