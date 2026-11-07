@@ -2,8 +2,10 @@ package org.gtlcore.gtlcore.common.data.machines;
 
 import org.gtlcore.gtlcore.GTLCore;
 import org.gtlcore.gtlcore.common.data.*;
+import org.gtlcore.gtlcore.common.data.machines.structure.AdvancedMultiBlockMachineStructureA;
 import org.gtlcore.gtlcore.common.data.machines.structure.MultiBlockMachineBStructure;
 import org.gtlcore.gtlcore.common.machine.multiblock.electric.WorkableElectricParallelHatchMultipleRecipesMachine;
+import org.gtlcore.gtlcore.common.machine.multiblock.noenergy.EyeOfWoodMachine;
 import org.gtlcore.gtlcore.common.machine.multiblock.noenergy.PrimitiveOreMachine;
 import org.gtlcore.gtlcore.config.ConfigHolder;
 
@@ -24,6 +26,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
@@ -34,6 +37,14 @@ import static com.gregtechceu.gtceu.common.registry.GTRegistration.REGISTRATE;
 public class MultiBlockMachineB {
 
     public static void init() {}
+
+    private static Component[] eyeOfWoodTooltips() {
+        Component[] tooltips = new Component[19];
+        for (int i = 0; i < tooltips.length; i++) {
+            tooltips[i] = Component.translatable("gtlcore.machine.eye_of_wood.tooltip." + i);
+        }
+        return tooltips;
+    }
 
     public final static MultiblockMachineDefinition GRAVITATION_SHOCKBURST = REGISTRATE.multiblock("gravitation_shockburst", WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.ALL)
@@ -196,6 +207,37 @@ public class MultiBlockMachineB {
                             GTCEu.id("block/multiblock/gcym/large_extractor"))
                     .register() :
             null;
+
+    /**
+     * 武德之眼。结构与鸿蒙之眼逐格一致（33×33×33），方块按 TST 原版：
+     * 青铜砖机壳 + 原版砖块/木板/青金石块/书架/錾制石砖。
+     */
+    public final static MultiblockMachineDefinition EYE_OF_WOOD = REGISTRATE
+            .multiblock("eye_of_wood", EyeOfWoodMachine::new)
+            .langValue("Eye of Wood")
+            .rotationState(RotationState.NON_Y_AXIS)
+            .allowExtendedFacing(false)
+            .recipeType(GTLRecipeTypes.EYE_OF_WOOD_RECIPES)
+            .appearanceBlock(GTBlocks.CASING_BRONZE_BRICKS)
+            .tooltips(eyeOfWoodTooltips())
+            .tooltipBuilder(GTLMachines.GTL_ADD)
+            .pattern(definition -> AdvancedMultiBlockMachineStructureA.EYE_OF_HARMONY
+                    .where('~', Predicates.controller(Predicates.blocks(definition.get())))
+                    .where('A', Predicates.blocks(Blocks.BRICKS))
+                    .where('B', Predicates.blocks(GTBlocks.CASING_BRONZE_BRICKS.get())
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
+                            .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS)))
+                    .where('D', Predicates.blockTag(BlockTags.PLANKS))
+                    .where('E', Predicates.blocks(Blocks.LAPIS_BLOCK))
+                    .where('F', Predicates.blocks(Blocks.BOOKSHELF))
+                    .where('G', Predicates.blocks(Blocks.CHISELED_STONE_BRICKS))
+                    .where(" ", Predicates.any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"),
+                    GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
 
     public final static MultiblockMachineDefinition LARGE_FRAGMENT_WORLD_COLLECTION_MACHINE = ConfigHolder.INSTANCE.content.enableSkyBlokeMode ?
             REGISTRATE.multiblock("large_fragment_world_collection_machine", WorkableElectricMultiblockMachine::new)

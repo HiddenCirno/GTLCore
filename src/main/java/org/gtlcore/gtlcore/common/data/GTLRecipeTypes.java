@@ -42,6 +42,11 @@ public class GTLRecipeTypes {
                     .setSound(GTSoundEntries.MINER) :
             null;
 
+    public static final GTRecipeType EYE_OF_WOOD_RECIPES = register("eye_of_wood", MULTIBLOCK)
+            .setMaxIOSize(0, 0, 2, 1)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.MINER);
+
     public final static GTRecipeType SEMI_FLUID_GENERATOR_FUELS = register("semi_fluid_generator", GENERATOR)
             .setMaxIOSize(0, 0, 1, 0).setEUIO(IO.OUT)
             .setSlotOverlay(false, true, true, GuiTextures.FURNACE_OVERLAY_2)
