@@ -1147,11 +1147,11 @@ public class MultiBlockMachineA {
                     Component.translatable("gtceu.autoclave"), Component.translatable("gtceu.chemical_bath"), Component.translatable("gtceu.ore_washer")))
             .tooltipBuilder(GTLMachines.GTL_ADD)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.PERFECT_OVERCLOCK_SUBTICK))
-            .appearanceBlock(GTLBlocks.EXTREME_STRENGTH_TRITANIUM_CASING)
+            .appearanceBlock(GTLBlocks.NAQUADAH_ALLOY_CASING)
             .pattern((definition) -> MultiBlockMachineAStructureD.CRYSTALLINE_INFINITY
                     .where("~", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("A", Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
-                    .where("B", Predicates.blocks(GTLBlocks.EXTREME_STRENGTH_TRITANIUM_CASING.get())
+                    .where("B", Predicates.blocks(GTLBlocks.NAQUADAH_ALLOY_CASING.get())
                             .setMinGlobalLimited(1200)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                             .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
@@ -1161,10 +1161,10 @@ public class MultiBlockMachineA {
                     .where("D", Predicates.blocks(Registries.getBlock("kubejs:molecular_coil")))
                     .where("E", Predicates.blocks(Registries.getBlock("kubejs:hollow_casing")))
                     .where("F", Predicates.blocks(GTLBlocks.HYPER_CORE.get()))
-                    .where("G", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Tritanium)))
+                    .where("G", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.NaquadahAlloy)))
                     .where(" ", Predicates.any())
                     .build())
-            .workableCasingRenderer(GTLCore.id("block/casings/extreme_strength_tritanium_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .workableCasingRenderer(GTLCore.id("block/casings/hyper_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
     public final static MultiblockMachineDefinition STAR_ULTIMATE_MATERIAL_FORGE_FACTORY = REGISTRATE.multiblock("star_ultimate_material_forge_factory", WorkableElectricMultiblockMachine::new)
