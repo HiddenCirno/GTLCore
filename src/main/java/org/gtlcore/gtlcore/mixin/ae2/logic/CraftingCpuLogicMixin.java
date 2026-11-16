@@ -32,6 +32,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -145,7 +146,7 @@ public abstract class CraftingCpuLogicMixin implements ICraftingJobSuspension, I
         int started = remainingOperations;
         if (remainingOperations > 0) {
             do {
-                int pushedPatterns = executeCrafting(
+                int pushedPatterns = gtlcore$executeCraftingImpl(
                         remainingOperations, craftingService, energyService, this.cluster.getLevel());
                 if (pushedPatterns <= 0) {
                     if (this.job != null && ((ExecutingCraftingJobAccessor) this.job).getTasks().isEmpty() &&
@@ -172,9 +173,16 @@ public abstract class CraftingCpuLogicMixin implements ICraftingJobSuspension, I
      * @author Dragons
      * @reason ME样板总成自动翻倍
      */
-    @Overwrite(remap = false)
-    public int executeCrafting(int maxPatterns, CraftingService craftingService, IEnergyService energyService,
-                               Level level) {
+    @Inject(method = "executeCrafting", at = @At("HEAD"), cancellable = true, remap = false)
+    private void gtlcore$executeCrafting(int maxPatterns, CraftingService craftingService,
+                                         IEnergyService energyService, Level level,
+                                         CallbackInfoReturnable<Integer> cir) {
+        cir.setReturnValue(gtlcore$executeCraftingImpl(maxPatterns, craftingService, energyService, level));
+    }
+
+    @Unique
+    private int gtlcore$executeCraftingImpl(int maxPatterns, CraftingService craftingService,
+                                            IEnergyService energyService, Level level) {
         if (((GraphCpuAccess) this).gtlcore$graphController().ownsTask()) return 0;
         var job = (ExecutingCraftingJobAccessor) (this.job);
         if (job == null) return 0;
