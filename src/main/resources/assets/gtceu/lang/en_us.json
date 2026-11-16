@@ -928,6 +928,7 @@
   "gtceu.machine.pcb_factory.tooltip.1": "Time multiplier per swarm: Gold: 0.5%, Vibranium: 1%",
   "gtceu.machine.pcb_factory.tooltip.2": "Vibranium also reduces power consumption by 4x",
   "gtceu.machine.primitive_magic_energy.tooltip.0": "Endlessly absorbs energy from end crystals above the machine",
+  "gtceu.machine.primitive_magic_energy.tooltip.1": "Also absorbs energy from a dragon egg placed on top",
   "gtceu.machine.processing_plant.tooltip.0": "Each mode requires a machine of corresponding voltage tier to operate",
   "gtceu.machine.processing_plant.tooltip.1": "Each voltage tier above LV increases max parallel by 4",
   "gtceu.machine.resource_collection.tooltip.0": "Max Parallel: 4^(Power Module Tier-1)",

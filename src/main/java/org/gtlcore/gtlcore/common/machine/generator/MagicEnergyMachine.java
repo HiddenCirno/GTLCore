@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.machine.TieredEnergyMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -30,8 +31,15 @@ public class MagicEnergyMachine extends TieredEnergyMachine {
     }
 
     protected void checkEnergy() {
-        if (getOffsetTimer() % 20 == 0 && !Objects.requireNonNull(getLevel()).getEntitiesOfClass(EndCrystal.class, AABB.ofSize(new Vec3(getPos().getX(), getPos().getY() + 1, getPos().getZ()), 1, 1, 1), e -> true).isEmpty()) {
-            energyContainer.addEnergy(GTValues.V[getTier() + 4]);
+        if (getOffsetTimer() % 20 == 0) {
+            var level = Objects.requireNonNull(getLevel());
+            boolean hasEndCrystal = !level.getEntitiesOfClass(EndCrystal.class,
+                    AABB.ofSize(new Vec3(getPos().getX(), getPos().getY() + 1, getPos().getZ()), 1, 1, 1),
+                    e -> true).isEmpty();
+            boolean hasDragonEgg = level.getBlockState(getPos().above()).is(Blocks.DRAGON_EGG);
+            if (hasEndCrystal || hasDragonEgg) {
+                energyContainer.addEnergy(GTValues.V[getTier() + 4]);
+            }
         }
     }
 

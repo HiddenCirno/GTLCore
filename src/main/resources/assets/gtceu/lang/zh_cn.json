@@ -928,6 +928,7 @@
   "gtceu.machine.pcb_factory.tooltip.1": "时间倍数/每个：金：0.5%，振金：1%",
   "gtceu.machine.pcb_factory.tooltip.2": "振金还可使能耗降低4倍",
   "gtceu.machine.primitive_magic_energy.tooltip.0": "无尽地吸收机器上方末地水晶的能量",
+  "gtceu.machine.primitive_magic_energy.tooltip.1": "也可以吸收放置在机器顶部的龙蛋的能量",
   "gtceu.machine.processing_plant.tooltip.0": "每种模式都需要放入一个对应电压等级的机器才能运行",
   "gtceu.machine.processing_plant.tooltip.1": "电压等级每高出LV一级，最大并行数+4",
   "gtceu.machine.resource_collection.tooltip.0": "最大并行数：4^(动力模块等级-1)",

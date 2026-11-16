@@ -240,6 +240,7 @@ public class GTLMachines {
                     .renderer(() -> new SimpleGeneratorMachineRenderer(tier,
                             GTCEu.id("block/generators/primitive_magic_energy")))
                     .tooltips(Component.translatable("gtceu.machine.primitive_magic_energy.tooltip.0"))
+                    .tooltips(Component.translatable("gtceu.machine.primitive_magic_energy.tooltip.1"))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.ampere_out", 16))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_out",
                             FormattingUtil.formatNumbers(GTValues.V[tier]), GTValues.VNF[tier]))
