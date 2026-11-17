@@ -25,6 +25,9 @@ public class MagicEnergyMachine extends TieredEnergyMachine {
     @Nullable
     protected TickableSubscription energySubs;
 
+    /** 每 20 tick 扫描一次能量源，实际发电每 tick 进行。 */
+    private boolean hasEnergySource;
+
     public MagicEnergyMachine(IMachineBlockEntity holder, int tier, Object... args) {
         super(holder, tier, args);
         this.energySubs = subscribeServerTick(energySubs, this::checkEnergy);
@@ -37,9 +40,11 @@ public class MagicEnergyMachine extends TieredEnergyMachine {
                     AABB.ofSize(new Vec3(getPos().getX(), getPos().getY() + 1, getPos().getZ()), 1, 1, 1),
                     e -> true).isEmpty();
             boolean hasDragonEgg = level.getBlockState(getPos().above()).is(Blocks.DRAGON_EGG);
-            if (hasEndCrystal || hasDragonEgg) {
-                energyContainer.addEnergy(GTValues.V[getTier() + 4]);
-            }
+            hasEnergySource = hasEndCrystal || hasDragonEgg;
+        }
+        if (hasEnergySource) {
+            // 每 tick 输出完整的 16A，和 Tooltip 标注一致。
+            energyContainer.addEnergy(GTValues.V[getTier()] * getMaxInputOutputAmperage());
         }
     }
 
