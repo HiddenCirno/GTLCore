@@ -2,7 +2,7 @@ package org.gtlcore.gtlcore.mixin.ae2;
 
 import org.gtlcore.gtlcore.client.ae2.CraftingCpuSearchTarget;
 import org.gtlcore.gtlcore.client.ae2.wireless.UniversalSearch;
-import org.gtlcore.gtlcore.integration.ae2.crafting.ICraftingCpuListEntry;
+import org.gtlcore.gtlcore.integration.ae2.crafting.ICraftingCpuLongCoProcessorView;
 import org.gtlcore.gtlcore.utils.NumberUtils;
 
 import appeng.client.gui.ICompositeWidget;
@@ -31,6 +31,10 @@ public abstract class CPUSelectionListMixin implements ICompositeWidget, Craftin
     @Shadow(remap = false)
     @Final
     private Scrollbar scrollbar;
+
+    @Shadow(remap = false)
+    @Final
+    private CraftingStatusMenu menu;
 
     @Unique
     private String gtlcore$cpuSearchQuery = "";
@@ -65,7 +69,7 @@ public abstract class CPUSelectionListMixin implements ICompositeWidget, Craftin
                remap = false)
     private long gtlcore$useLongCoProcessorsInTooltip(long coProcessors,
                                                       @Local(name = "cpu") CraftingStatusMenu.CraftingCpuListEntry cpu) {
-        return ((ICraftingCpuListEntry) (Object) cpu).gtlcore$getCoProcessors();
+        return gtlcore$coProcessors(cpu);
     }
 
     @Redirect(method = "drawBackgroundLayer",
@@ -73,8 +77,7 @@ public abstract class CPUSelectionListMixin implements ICompositeWidget, Craftin
               remap = false)
     private String gtlcore$formatLongCoProcessors(int coProcessors,
                                                   @Local(name = "cpu") CraftingStatusMenu.CraftingCpuListEntry cpu) {
-        long longCoProcessors = ((ICraftingCpuListEntry) (Object) cpu).gtlcore$getCoProcessors();
-        return NumberUtils.numberText(longCoProcessors).getString();
+        return NumberUtils.numberText(gtlcore$coProcessors(cpu)).getString();
     }
 
     @Override
@@ -108,6 +111,12 @@ public abstract class CPUSelectionListMixin implements ICompositeWidget, Craftin
                     .toList();
         }
         return this.gtlcore$filteredCpus;
+    }
+
+    @Unique
+    private long gtlcore$coProcessors(CraftingStatusMenu.CraftingCpuListEntry cpu) {
+        long value = ((ICraftingCpuLongCoProcessorView) this.menu).gtlcore$getLongCoProcessors(cpu.serial());
+        return value > 0 ? value : cpu.coProcessors();
     }
 
     @Unique

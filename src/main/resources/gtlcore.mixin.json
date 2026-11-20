@@ -174,7 +174,6 @@
     "ae2.gui.AEBaseMenuPatternAccessor",
     "ae2.gui.CraftConfirmMenuMixin",
     "ae2.gui.CraftConfirmTableRendererMixin",
-    "ae2.gui.CraftingCpuListEntryMixin",
     "ae2.gui.CraftingCPUMenuMixin",
     "ae2.gui.CraftingStatusMenuMixin",
     "ae2.gui.PatternEncodingTermMenuMixin",
