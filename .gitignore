@@ -68,3 +68,5 @@ _tmp_gt/
 
 # Local patch backups
 *.bak-*
+build-*.log
+deploy-watcher.log
