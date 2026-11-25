@@ -69,7 +69,7 @@ public class PatternCircuitConfigurator implements IFancyConfigurator {
         display.addWidget(new LabelWidget(10, 27,
                 "gui.gtlcore.pattern_buffer_circuit_number"));
         display.addWidget(new IntInputWidget(96, 24, 78, 14, circuitSupplier, circuitSetter)
-                .setMin(1)
+                .setMin(0)
                 .setMax(IntCircuitBehaviour.CIRCUIT_MAX)
                 .setHoverTooltips(Component.translatable("tooltip.gtlcore.pattern_buffer_circuit_number",
                         IntCircuitBehaviour.CIRCUIT_MAX)));

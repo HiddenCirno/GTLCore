@@ -1008,7 +1008,7 @@
   "gui.gtlcore.pattern_buffer_gui_2": "Item Catalyst Tank",
   "gui.gtlcore.pattern_buffer_gui_3": "Fluid Catalyst Tank",
   "tooltip.gtlcore.pattern_buffer_circuit_config": "Batch writes or clears programmed circuits in processing patterns stored by this pattern buffer",
-  "tooltip.gtlcore.pattern_buffer_circuit_number": "Allowed range: 1-%s",
+  "tooltip.gtlcore.pattern_buffer_circuit_number": "Allowed range: 0-%s",
   "tooltip.gtlcore.pattern_buffer_skip_existing_circuit": "When enabled, writing will not modify patterns that already contain any programmed circuit",
   "tooltip.gtlcore.pattern_buffer_cut_patterns": "Cut patterns: %s",
   "tooltip.gtlcore.pattern_buffer_cut_source": "Source pattern buffer: %s",

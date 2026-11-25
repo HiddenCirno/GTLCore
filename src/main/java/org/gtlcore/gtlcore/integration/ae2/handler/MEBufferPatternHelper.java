@@ -90,7 +90,7 @@ public class MEBufferPatternHelper {
      */
     public ItemStack createPatternWithCircuit(ItemStack originalPatternStack, int circuitConfig, boolean replaceExisting,
                                               Level level) {
-        if (circuitConfig < 1 || circuitConfig > IntCircuitBehaviour.CIRCUIT_MAX) {
+        if (circuitConfig < 0 || circuitConfig > IntCircuitBehaviour.CIRCUIT_MAX) {
             return originalPatternStack;
         }
         return rebuildPatternCircuit(originalPatternStack, circuitConfig, replaceExisting, level);
@@ -120,7 +120,7 @@ public class MEBufferPatternHelper {
             }
         }
 
-        if (circuitConfig < 0 && !hasCircuit) {
+        if (circuitConfig <= 0 && !hasCircuit) {
             return originalPatternStack;
         }
         if (circuitConfig > 0 && hasCircuit && !replaceExisting) {

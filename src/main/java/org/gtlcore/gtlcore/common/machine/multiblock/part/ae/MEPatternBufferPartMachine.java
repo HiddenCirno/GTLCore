@@ -816,7 +816,7 @@ public class MEPatternBufferPartMachine extends MEPatternBufferPartMachineBase {
     // ========================================
 
     private void setEmbeddedCircuitConfig(int embeddedCircuitConfig) {
-        this.embeddedCircuitConfig = Math.max(1, Math.min(IntCircuitBehaviour.CIRCUIT_MAX, embeddedCircuitConfig));
+        this.embeddedCircuitConfig = Math.max(0, Math.min(IntCircuitBehaviour.CIRCUIT_MAX, embeddedCircuitConfig));
     }
 
     private void applyConfiguredCircuit(ClickData clickData) {
@@ -838,7 +838,7 @@ public class MEPatternBufferPartMachine extends MEPatternBufferPartMachineBase {
     }
 
     private void embedCircuitToPatterns(int circuitConfig, boolean replaceExisting) {
-        int safeCircuitConfig = Math.max(1, Math.min(IntCircuitBehaviour.CIRCUIT_MAX, circuitConfig));
+        int safeCircuitConfig = Math.max(0, Math.min(IntCircuitBehaviour.CIRCUIT_MAX, circuitConfig));
         for (int i = 0; i < internalPatternInventory.size(); i++) {
             ItemStack stack = internalPatternInventory.getStackInSlot(i);
             if (stack.isEmpty()) continue;
