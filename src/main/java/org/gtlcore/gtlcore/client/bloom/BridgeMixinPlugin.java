@@ -33,6 +33,11 @@ public final class BridgeMixinPlugin implements IMixinConfigPlugin {
         if (mixin.equals("org.gtlcore.gtlcore.mixin.extendedae.BlockFishbigMixin")) {
             return mods != null && mods.getModFileById("expatternprovider") != null;
         }
+        if (mixin.equals("org.gtlcore.gtlcore.mixin.ae2.integration.EmiEncodePatternTransferHandlerMixin") ||
+                mixin.equals("org.gtlcore.gtlcore.mixin.emi.GTEmiRecipeAccessor") ||
+                mixin.equals("org.gtlcore.gtlcore.mixin.gtceu.GtceuEmiPatternTerminalHandlerMixin")) {
+            return mods != null && mods.getModFileById("emi") != null;
+        }
         if (!mixin.startsWith("org.gtlcore.gtlcore.mixin.bloom.")) return true;
         if (mods != null && mods.getModFileById("gtlbloom") != null) return false;
         return !mixin.contains(".Oculus") || supportedOculus();

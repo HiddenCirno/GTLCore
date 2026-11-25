@@ -20,8 +20,10 @@ import appeng.api.stacks.GenericStack;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -85,6 +87,21 @@ public final class VirtualIngredientEncoding {
                     VirtualIngredientBehavior.wrap(FluidStack.create(fluidKey.getFluid(), 1)));
         }
         return null;
+    }
+
+    /** Rewrites every matching option in every input slot to a virtual ingredient wrapper. */
+    public static List<List<GenericStack>> wrapNotConsumedInputs(List<List<GenericStack>> inputs,
+                                                                 Set<AEKey> notConsumed) {
+        List<List<GenericStack>> rewritten = new ArrayList<>(inputs.size());
+        for (List<GenericStack> slot : inputs) {
+            List<GenericStack> options = new ArrayList<>(slot.size());
+            for (GenericStack option : slot) {
+                GenericStack wrapped = wrapIfNotConsumed(option, notConsumed);
+                options.add(wrapped == null ? option : wrapped);
+            }
+            rewritten.add(options);
+        }
+        return rewritten;
     }
 
     @Nullable

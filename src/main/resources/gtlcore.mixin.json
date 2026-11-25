@@ -6,6 +6,9 @@
   "refmap": "gtlcore-refmap.json",
   "plugin": "org.gtlcore.gtlcore.client.bloom.BridgeMixinPlugin",
   "client": [
+    "ae2.integration.EmiEncodePatternTransferHandlerMixin",
+    "emi.GTEmiRecipeAccessor",
+    "gtceu.GtceuEmiPatternTerminalHandlerMixin",
     "mc.client.KeyMappingLookupMixin",
     "toolbelt.BeltScreenMixin",
     "toolbelt.RadialMenuScreenMixin",
@@ -21,7 +24,6 @@
     "bloom.OculusPbrCacheMixin",
     "bloom.OculusPbrSamplerMixin",
     "bloom.SpriteSourceListAliasMixin",
-
     "mc.client.AnimationBufferSourceAccessor",
     "ae2.gui.CraftingVisualizationToolbarMixin",
     "ae2ct.CraftingTreeWidgetMixin",
