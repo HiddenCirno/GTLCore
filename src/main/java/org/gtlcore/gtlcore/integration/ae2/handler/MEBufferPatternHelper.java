@@ -120,13 +120,13 @@ public class MEBufferPatternHelper {
             }
         }
 
-        if (circuitConfig <= 0 && !hasCircuit) {
+        if (circuitConfig < 0 && !hasCircuit) {
             return originalPatternStack;
         }
-        if (circuitConfig > 0 && hasCircuit && !replaceExisting) {
+        if (circuitConfig >= 0 && hasCircuit && !replaceExisting) {
             return originalPatternStack;
         }
-        if (circuitConfig > 0) {
+        if (circuitConfig >= 0) {
             filteredInputs.add(0, GenericStack.fromItemStack(IntCircuitBehaviour.stack(circuitConfig)));
         }
 
