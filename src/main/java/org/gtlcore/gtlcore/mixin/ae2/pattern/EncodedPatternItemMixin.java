@@ -30,10 +30,33 @@ public abstract class EncodedPatternItemMixin {
     @Inject(method = "appendHoverText", at = @At("TAIL"))
     private void gtlcore$appendQuickUploadRecipeTypes(ItemStack stack, Level level, List<Component> tooltip,
                                                       TooltipFlag flag, CallbackInfo ci) {
-        PatternEncoderMetadata.readEncoder(stack).ifPresent(encoder -> tooltip.add(Component.translatable(
-                "tooltip.gtlcore.pattern_encoder",
-                Component.literal(encoder.displayName()).withStyle(ChatFormatting.LIGHT_PURPLE))
-                .withStyle(ChatFormatting.GRAY)));
+        PatternEncoderMetadata.readEncoder(stack).ifPresent(encoder -> {
+            tooltip.add(Component.translatable(
+                    "tooltip.gtlcore.pattern_encoder",
+                    Component.literal(encoder.displayName()).withStyle(ChatFormatting.LIGHT_PURPLE))
+                    .withStyle(ChatFormatting.GRAY));
+            if (encoder.encodedAt() > 0) {
+                tooltip.add(Component.translatable(
+                        "tooltip.gtlcore.pattern_encoded_at",
+                        Component.literal(PatternEncoderMetadata.formatTimestamp(encoder.encodedAt()))
+                                .withStyle(ChatFormatting.LIGHT_PURPLE))
+                        .withStyle(ChatFormatting.GRAY));
+            }
+            if (!encoder.lastModifierName().isBlank()) {
+                tooltip.add(Component.translatable(
+                        "tooltip.gtlcore.pattern_last_modifier",
+                        Component.literal(encoder.lastModifierDisplayName())
+                                .withStyle(ChatFormatting.YELLOW))
+                        .withStyle(ChatFormatting.GRAY));
+            }
+            if (encoder.lastModifiedAt() > 0) {
+                tooltip.add(Component.translatable(
+                        "tooltip.gtlcore.pattern_last_modified_at",
+                        Component.literal(PatternEncoderMetadata.formatTimestamp(encoder.lastModifiedAt()))
+                                .withStyle(ChatFormatting.YELLOW))
+                        .withStyle(ChatFormatting.GRAY));
+            }
+        });
 
         Set<ResourceLocation> recipeTypeIds = PatternQuickUploadMetadata.readRecipeTypeIds(stack);
         if (recipeTypeIds.isEmpty()) {

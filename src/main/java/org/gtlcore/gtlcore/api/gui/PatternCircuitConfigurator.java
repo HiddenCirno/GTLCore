@@ -16,6 +16,9 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -28,13 +31,23 @@ public class PatternCircuitConfigurator implements IFancyConfigurator {
     private final Consumer<Integer> circuitSetter;
     private final Supplier<Boolean> skipExistingSupplier;
     private final BiConsumer<ClickData, Boolean> skipExistingSetter;
-    private final Consumer<ClickData> applyCircuit;
-    private final Consumer<ClickData> clearCircuits;
+    private final BiConsumer<ClickData, Player> applyCircuit;
+    private final BiConsumer<ClickData, Player> clearCircuits;
 
     public PatternCircuitConfigurator(Supplier<Integer> circuitSupplier, Consumer<Integer> circuitSetter,
                                       Supplier<Boolean> skipExistingSupplier,
                                       BiConsumer<ClickData, Boolean> skipExistingSetter,
                                       Consumer<ClickData> applyCircuit, Consumer<ClickData> clearCircuits) {
+        this(circuitSupplier, circuitSetter, skipExistingSupplier, skipExistingSetter,
+                (clickData, player) -> applyCircuit.accept(clickData),
+                (clickData, player) -> clearCircuits.accept(clickData));
+    }
+
+    public PatternCircuitConfigurator(Supplier<Integer> circuitSupplier, Consumer<Integer> circuitSetter,
+                                      Supplier<Boolean> skipExistingSupplier,
+                                      BiConsumer<ClickData, Boolean> skipExistingSetter,
+                                      BiConsumer<ClickData, Player> applyCircuit,
+                                      BiConsumer<ClickData, Player> clearCircuits) {
         this.circuitSupplier = circuitSupplier;
         this.circuitSetter = circuitSetter;
         this.skipExistingSupplier = skipExistingSupplier;
@@ -87,16 +100,21 @@ public class PatternCircuitConfigurator implements IFancyConfigurator {
         display.addWidget(new ButtonWidget(10, 72, 78, 18,
                 new GuiTextureGroup(GuiTextures.BUTTON,
                         new TextTexture(() -> Component.translatable("gui.gtlcore.pattern_buffer_apply_circuit").getString())),
-                applyCircuit)
+                clickData -> applyCircuit.accept(clickData, getPlayer(group)))
                 .setHoverTooltips(Component.translatable("tooltip.gtlcore.pattern_buffer_apply_circuit")));
         display.addWidget(new ButtonWidget(96, 72, 78, 18,
                 new GuiTextureGroup(GuiTextures.BUTTON,
                         new TextTexture(() -> Component.translatable("gui.gtlcore.pattern_buffer_clear_circuits").getString())),
-                clearCircuits)
+                clickData -> clearCircuits.accept(clickData, getPlayer(group)))
                 .setHoverTooltips(Component.translatable("tooltip.gtlcore.pattern_buffer_clear_circuits")));
 
         group.addWidget(display);
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
+    }
+
+    @Nullable
+    private static Player getPlayer(Widget widget) {
+        return widget.getGui() == null ? null : widget.getGui().entityPlayer;
     }
 }

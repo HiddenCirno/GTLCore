@@ -118,8 +118,13 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             return;
         }
 
+        ItemStack previousPattern = this.encodedPatternSlot.getItem().copy();
         ItemStack encodedPattern = encodePattern();
         if (encodedPattern != null) {
+            // Re-encoding an existing pattern must preserve its original encoder and encoding time.
+            if (gTLCore$hasEncoder(previousPattern)) {
+                PatternEncoderMetadata.copyMetadata(previousPattern, encodedPattern);
+            }
             gTLCore$writeQuickUploadMetadata(encodedPattern);
             var encodeOutput = this.encodedPatternSlot.getItem();
 
@@ -146,7 +151,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
                 }
             }
 
-            gTLCore$writePatternEncoder(encodedPattern);
+            gTLCore$writePatternEncoder(encodedPattern, previousPattern);
             this.encodedPatternSlot.set(encodedPattern);
             gTLCore$awardPatternEncoded();
         } else {
@@ -478,6 +483,28 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
                     player.getUUID(),
                     player.getGameProfile().getName());
         }
+    }
+
+    @Unique
+    private void gTLCore$writePatternEncoder(ItemStack patternStack, ItemStack previousPattern) {
+        if (!(this.getPlayer() instanceof ServerPlayer player)) {
+            return;
+        }
+        if (gTLCore$hasEncoder(previousPattern)) {
+            // The metadata was copied before the quick-upload metadata was refreshed.
+            PatternEncoderMetadata.touchModified(patternStack, player.getGameProfile().getName());
+        } else {
+            PatternEncoderMetadata.writeEncoder(
+                    patternStack,
+                    player.getUUID(),
+                    player.getGameProfile().getName());
+        }
+    }
+
+    @Unique
+    private static boolean gTLCore$hasEncoder(ItemStack patternStack) {
+        return PatternDetailsHelper.isEncodedPattern(patternStack) &&
+                PatternEncoderMetadata.readEncoder(patternStack).isPresent();
     }
 
     @Unique

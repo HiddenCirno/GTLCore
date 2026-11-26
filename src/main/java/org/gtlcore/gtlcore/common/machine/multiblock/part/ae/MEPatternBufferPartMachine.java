@@ -8,6 +8,7 @@ import org.gtlcore.gtlcore.common.data.GTLItems;
 import org.gtlcore.gtlcore.common.data.GTLMachines;
 import org.gtlcore.gtlcore.common.item.VirtualIngredientBehavior;
 import org.gtlcore.gtlcore.integration.ae2.AEUtils;
+import org.gtlcore.gtlcore.integration.ae2.pattern.PatternEncoderMetadata;
 import org.gtlcore.gtlcore.integration.ae2.widget.AEPatternViewExtendSlotWidget;
 import org.gtlcore.gtlcore.utils.GTLUtil;
 import org.gtlcore.gtlcore.utils.Registries;
@@ -42,6 +43,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -763,8 +765,8 @@ public class MEPatternBufferPartMachine extends MEPatternBufferPartMachineBase {
                 this::setEmbeddedCircuitConfig,
                 () -> skipExistingCircuitPatterns,
                 (clickData, pressed) -> skipExistingCircuitPatterns = pressed,
-                this::applyConfiguredCircuit,
-                this::removeAllPatternCircuits));
+                (clickData, player) -> applyConfiguredCircuit(clickData, player),
+                (clickData, player) -> removeAllPatternCircuits(clickData, player)));
     }
 
     @Override
@@ -819,25 +821,29 @@ public class MEPatternBufferPartMachine extends MEPatternBufferPartMachineBase {
         this.embeddedCircuitConfig = Math.max(0, Math.min(IntCircuitBehaviour.CIRCUIT_MAX, embeddedCircuitConfig));
     }
 
-    private void applyConfiguredCircuit(ClickData clickData) {
+    private void applyConfiguredCircuit(ClickData clickData, @Nullable Player player) {
         if (clickData.isRemote) return;
-        embedCircuitToPatterns(embeddedCircuitConfig, !skipExistingCircuitPatterns);
+        embedCircuitToPatterns(embeddedCircuitConfig, !skipExistingCircuitPatterns, getModifierName(player));
     }
 
-    private void removeAllPatternCircuits(ClickData clickData) {
+    private void removeAllPatternCircuits(ClickData clickData, @Nullable Player player) {
         if (clickData.isRemote) return;
+        String modifierName = getModifierName(player);
         for (int i = 0; i < internalPatternInventory.size(); i++) {
             ItemStack stack = internalPatternInventory.getStackInSlot(i);
             if (stack.isEmpty()) continue;
 
             ItemStack after = realPatternHelper.removeCircuitFromPattern(stack, getLevel());
             if (!after.isEmpty() && !ItemStack.matches(stack, after)) {
+                if (modifierName != null) {
+                    PatternEncoderMetadata.touchModified(after, modifierName);
+                }
                 internalPatternInventory.setItemDirect(i, after);
             }
         }
     }
 
-    private void embedCircuitToPatterns(int circuitConfig, boolean replaceExisting) {
+    private void embedCircuitToPatterns(int circuitConfig, boolean replaceExisting, @Nullable String modifierName) {
         int safeCircuitConfig = Math.max(0, Math.min(IntCircuitBehaviour.CIRCUIT_MAX, circuitConfig));
         for (int i = 0; i < internalPatternInventory.size(); i++) {
             ItemStack stack = internalPatternInventory.getStackInSlot(i);
@@ -845,9 +851,17 @@ public class MEPatternBufferPartMachine extends MEPatternBufferPartMachineBase {
 
             ItemStack after = realPatternHelper.createPatternWithCircuit(stack, safeCircuitConfig, replaceExisting, getLevel());
             if (!after.isEmpty() && !ItemStack.matches(stack, after)) {
+                if (modifierName != null) {
+                    PatternEncoderMetadata.touchModified(after, modifierName);
+                }
                 internalPatternInventory.setItemDirect(i, after);
             }
         }
+    }
+
+    @Nullable
+    private static String getModifierName(@Nullable Player player) {
+        return player instanceof ServerPlayer serverPlayer ? serverPlayer.getGameProfile().getName() : null;
     }
 
     private IPatternDetails getRealPattern(int slot, ItemStack stack) {

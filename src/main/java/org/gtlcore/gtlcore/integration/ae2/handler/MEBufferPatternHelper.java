@@ -1,6 +1,7 @@
 package org.gtlcore.gtlcore.integration.ae2.handler;
 
 import org.gtlcore.gtlcore.api.machine.trait.NotifiableCircuitItemStackHandler;
+import org.gtlcore.gtlcore.integration.ae2.pattern.PatternEncoderMetadata;
 
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
@@ -130,8 +131,10 @@ public class MEBufferPatternHelper {
             filteredInputs.add(0, GenericStack.fromItemStack(IntCircuitBehaviour.stack(circuitConfig)));
         }
 
-        return PatternDetailsHelper.encodeProcessingPattern(
+        ItemStack rebuilt = PatternDetailsHelper.encodeProcessingPattern(
                 filteredInputs.toArray(new GenericStack[0]), processingPattern.getSparseOutputs());
+        PatternEncoderMetadata.copyMetadata(originalPatternStack, rebuilt);
+        return rebuilt;
     }
 
     /**
