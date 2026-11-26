@@ -54,8 +54,15 @@ public final class PatternEncoderMetadata {
 
         CompoundTag tag = patternStack.getOrCreateTag();
         CompoundTag gtlcoreTag = getOrCreateRoot(tag);
+        long now = System.currentTimeMillis();
+        // Old GTLCore patterns had only the encoder fields. Backfill the missing
+        // encoded-at field when the pattern is edited again.
+        if (gtlcoreTag.getLong(ENCODED_AT_KEY) <= 0) {
+            long previousModifiedAt = gtlcoreTag.getLong(LAST_MODIFIED_AT_KEY);
+            gtlcoreTag.putLong(ENCODED_AT_KEY, previousModifiedAt > 0 ? previousModifiedAt : now);
+        }
         gtlcoreTag.putString(LAST_MODIFIER_NAME_KEY, modifierName);
-        gtlcoreTag.putLong(LAST_MODIFIED_AT_KEY, System.currentTimeMillis());
+        gtlcoreTag.putLong(LAST_MODIFIED_AT_KEY, now);
         tag.put(ROOT_KEY, gtlcoreTag);
     }
 
